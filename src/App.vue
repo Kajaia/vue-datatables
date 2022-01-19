@@ -1,6 +1,9 @@
 <template>
   <div class="container-fluid">
-    <div class="container my-5">
+    <div class="container my-3">
+      <h1 class="display-2 text-center mb-4">
+        <span class="text-primary">Vue</span><span class="ms-1">Datatable</span>
+      </h1>
       <div class="row justify-content-between my-2">
         <div class="col-sm-6 col-md-4 col-lg-3 my-1">
           <div class="d-flex align-items-center">
@@ -240,6 +243,12 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
 .pointer {
   cursor: pointer;
 }
