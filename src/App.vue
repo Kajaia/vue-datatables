@@ -2,18 +2,27 @@
   <div class="container-fluid">
     <div class="container my-5">
       <div class="row justify-content-between my-2">
-        <div class="col-4 col-md-2 col-lg-1">
-          <select class="form-select" v-model="params.perPage">
-            <option
-              v-for="(length, index) in params.pageLength"
-              :key="index"
-              :value="length.value"
+        <div class="col-sm-6 col-md-4 col-lg-3 my-1">
+          <div class="d-flex align-items-center">
+            <select
+              id="perPage"
+              class="form-select sm-select"
+              v-model="params.perPage"
             >
-              {{ length.value }}
-            </option>
-          </select>
+              <option
+                v-for="(length, index) in params.pageLength"
+                :key="index"
+                :value="length.value"
+              >
+                {{ length.value }}
+              </option>
+            </select>
+            <label for="perPage" class="form-label ms-1 mt-1"
+              ><small>records per page</small></label
+            >
+          </div>
         </div>
-        <div class="col-8 col-md-5 col-lg-3">
+        <div class="col-sm-6 col-md-5 col-lg-3 my-1">
           <input
             class="form-control"
             type="text"
@@ -93,13 +102,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(hotel, index) in hotels" :key="index">
+            <tr v-for="(record, index) in records" :key="index">
               <th scope="row" class="text-center">{{ index + 1 }}</th>
-              <td>{{ hotel.name_en ?? "-" }}</td>
-              <td>{{ hotel.category.name_en ?? "-" }}</td>
-              <td>{{ hotel.municipality.name_en ?? "-" }}</td>
-              <td>{{ hotel.mobile ?? "-" }}</td>
-              <td>{{ hotel.email ?? "-" }}</td>
+              <td>{{ record.name_en ?? "-" }}</td>
+              <td>{{ record.category.name_en ?? "-" }}</td>
+              <td>{{ record.municipality.name_en ?? "-" }}</td>
+              <td>{{ record.mobile ?? "-" }}</td>
+              <td>{{ record.email ?? "-" }}</td>
             </tr>
           </tbody>
         </table>
@@ -107,9 +116,9 @@
       <div class="d-flex align-items-center justify-content-between">
         <div class="col">
           Showing {{ pagination.from }} to {{ pagination.to }} of
-          {{ pagination.total }} entries
+          {{ pagination.total }} records
         </div>
-        <nav class="col">
+        <nav>
           <ul class="pagination flex-wrap">
             <li
               v-for="(link, index) in pagination.links"
@@ -139,7 +148,7 @@ export default {
   name: "app",
   data() {
     return {
-      hotels: [],
+      records: [],
       params: {
         page: 1,
         pageLength: [
@@ -206,7 +215,7 @@ export default {
           },
         })
         .then((res) => {
-          this.hotels = res.data.data;
+          this.records = res.data.data;
           this.pagination = {
             current_page: res.data.current_page,
             first_page_url: res.data.first_page_url,
@@ -231,5 +240,9 @@ export default {
 <style>
 .pointer {
   cursor: pointer;
+}
+
+.sm-select {
+  width: 80px !important;
 }
 </style>
