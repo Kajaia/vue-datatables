@@ -113,12 +113,14 @@
           </tbody>
         </table>
       </div>
-      <div class="d-flex align-items-center justify-content-between">
-        <div class="col">
+      <div
+        class="d-flex align-items-center justify-content-between flex-direction"
+      >
+        <div class="my-1">
           Showing {{ pagination.from }} to {{ pagination.to }} of
           {{ pagination.total }} records
         </div>
-        <nav>
+        <nav class="my-1">
           <ul class="pagination flex-wrap">
             <li
               v-for="(link, index) in pagination.links"
@@ -244,5 +246,15 @@ export default {
 
 .sm-select {
   width: 80px !important;
+}
+
+.flex-direction {
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 1023px) {
+  .flex-direction {
+    flex-direction: column;
+  }
 }
 </style>
