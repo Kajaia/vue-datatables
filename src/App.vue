@@ -46,7 +46,7 @@
         <table class="table table-striped">
           <thead class="bg-dark text-white">
             <tr>
-              <th scope="col" class="text-center w-10"></th>
+              <th scope="col" class="text-center w-10">#</th>
               <th
                 scope="col"
                 class="w-25 pointer"
@@ -114,14 +114,7 @@
           </thead>
           <tbody>
             <tr v-for="(record, index) in records" :key="index">
-              <th scope="row" class="text-center">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  :value="record.id"
-                  v-model="selected"
-                />
-              </th>
+              <th scope="row" class="text-center">{{ index + 1 }}</th>
               <td>{{ record.name_en ?? "-" }}</td>
               <td>{{ record.category.name_en ?? "-" }}</td>
               <td>{{ record.municipality.name_en ?? "-" }}</td>
