@@ -34,19 +34,51 @@
           />
         </div>
       </div>
-      <div class="my-1">
-        <a
-          class="btn btn-sm btn-primary"
-          :href="'https://intranet.infoajara.com/api/database/hotels-export/en'"
-          download
-          >Export all</a
+      <div v-if="selected.length > 0" class="my-1">
+        <button
+          class="btn btn-sm btn-primary dropdown-toggle"
+          type="button"
+          id="exportDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
         >
+          Export {{ selected.length }}
+          <span v-if="selected.length > 1">records</span>
+          <span v-else>record</span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="exportDropdown">
+          <li><h6 class="dropdown-header">Choose language</h6></li>
+          <li>
+            <a
+              class="dropdown-item"
+              href="#!"
+              @click.prevent="exportRecords(selected, 'ka')"
+              >Georgian</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              href="#!"
+              @click.prevent="exportRecords(selected, 'en')"
+              >English</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              href="#!"
+              @click.prevent="exportRecords(selected, 'ru')"
+              >Russian</a
+            >
+          </li>
+        </ul>
       </div>
       <div class="table-responsive">
         <table class="table table-striped">
           <thead class="bg-dark text-white">
             <tr>
-              <th scope="col" class="text-center w-10">#</th>
+              <th scope="col" class="text-center w-10"></th>
               <th
                 scope="col"
                 class="w-25 pointer"
@@ -114,7 +146,14 @@
           </thead>
           <tbody>
             <tr v-for="(record, index) in records" :key="index">
-              <th scope="row" class="text-center">{{ index + 1 }}</th>
+              <th scope="row" class="text-center">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  :value="'&selected[]=' + record.id"
+                  v-model="selected"
+                />
+              </th>
               <td>{{ record.name_en ?? "-" }}</td>
               <td>{{ record.category.name_en ?? "-" }}</td>
               <td>{{ record.municipality.name_en ?? "-" }}</td>
@@ -162,6 +201,7 @@ export default {
   data() {
     return {
       records: [],
+      selected: [],
       params: {
         page: 1,
         pageLength: [
@@ -204,6 +244,25 @@ export default {
     },
   },
   methods: {
+    exportRecords(selected, lang) {
+      axios
+        .get(
+          `https://intranet.infoajara.com/api/database/hotels-export?lang=${lang}${selected}`,
+          { responseType: "blob" }
+        )
+        .then((response) => {
+          const blob = new Blob([response.data], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          // link.download = label;
+          link.click();
+          URL.revokeObjectURL(link.href);
+        })
+        .catch(console.error);
+      this.selected = [];
+    },
     changeSort(column) {
       if (this.params.sortBy === column) {
         this.params.sortDirection =
