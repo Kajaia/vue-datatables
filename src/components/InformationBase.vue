@@ -1,6 +1,14 @@
 <template>
   <h1 class="display-2 text-center mb-4">
-    {{ pageTitle }}
+    {{
+      $store.state.locale === "ka"
+        ? "სასტუმროები"
+        : $store.state.locale === "en"
+        ? pageTitle
+        : $store.state.locale === "ru"
+        ? "Отели"
+        : null
+    }}
   </h1>
   <div class="row justify-content-between my-2">
     <div class="col-sm-6 col-md-4 col-lg-3 my-1">
@@ -19,7 +27,17 @@
           </option>
         </select>
         <label for="perPage" class="form-label ms-1 mt-1"
-          ><small>records per page</small></label
+          ><small>
+            {{
+              $store.state.locale === "ka"
+                ? "ჩანაწერი ერთ გვერდზე"
+                : $store.state.locale === "en"
+                ? "records per page"
+                : $store.state.locale === "ru"
+                ? "записей на странице"
+                : null
+            }}
+          </small></label
         >
       </div>
     </div>
@@ -28,12 +46,12 @@
         class="form-control"
         type="text"
         v-model="params.search"
-        placeholder="Search..."
+        :placeholder="searchPlaceholder"
       />
     </div>
   </div>
   <button class="btn btn-sm btn-secondary mb-2" @click="showFilters">
-    {{ filtersText }} filters
+    {{ filtersText }}
   </button>
   <div
     v-show="filters"
@@ -41,25 +59,61 @@
   >
     <div class="col-sm-6 col-md-4 col-lg-3 my-1">
       <select class="form-select" v-model="params.category_id">
-        <option :value="null">All categories</option>
+        <option :value="null">
+          {{
+            $store.state.locale === "ka"
+              ? "ყველა კატეგორია"
+              : $store.state.locale === "en"
+              ? "All categories"
+              : $store.state.locale === "ru"
+              ? "Все категории"
+              : null
+          }}
+        </option>
         <option
           v-for="(category, index) in categories"
           :key="index"
           :value="category.id"
         >
-          {{ category.name_en }}
+          {{
+            $store.state.locale === "ka"
+              ? category.name_ka
+              : $store.state.locale === "en"
+              ? category.name_en
+              : $store.state.locale === "ru"
+              ? category.name_ru
+              : null
+          }}
         </option>
       </select>
     </div>
     <div class="col-sm-6 col-md-4 col-lg-3 my-1">
       <select class="form-select" v-model="params.municipality_id">
-        <option :value="null">All municipalities</option>
+        <option :value="null">
+          {{
+            $store.state.locale === "ka"
+              ? "ყველა მუნიციპალიტეტი"
+              : $store.state.locale === "en"
+              ? "All municipalities"
+              : $store.state.locale === "ru"
+              ? "Все муниципалитеты"
+              : null
+          }}
+        </option>
         <option
           v-for="(municipality, index) in municipalities"
           :key="index"
           :value="municipality.id"
         >
-          {{ municipality.name_en }}
+          {{
+            $store.state.locale === "ka"
+              ? municipality.name_ka
+              : $store.state.locale === "en"
+              ? municipality.name_en
+              : $store.state.locale === "ru"
+              ? municipality.name_ru
+              : null
+          }}
         </option>
       </select>
     </div>
@@ -72,16 +126,44 @@
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      Download all
+      {{
+        $store.state.locale === "ka"
+          ? "ყველას გადმოწერა"
+          : $store.state.locale === "en"
+          ? "Download all"
+          : $store.state.locale === "ru"
+          ? "Скачать все"
+          : null
+      }}
     </button>
     <ul class="dropdown-menu" aria-labelledby="allExportDropdown">
-      <li><h6 class="dropdown-header">Choose language</h6></li>
+      <li>
+        <h6 class="dropdown-header">
+          {{
+            $store.state.locale === "ka"
+              ? "აირჩიეთ ენა"
+              : $store.state.locale === "en"
+              ? "Choose language"
+              : $store.state.locale === "ru"
+              ? "Выберите язык"
+              : null
+          }}
+        </h6>
+      </li>
       <li>
         <a
           class="dropdown-item"
           href="#!"
           @click.prevent="exportRecords([], 'ka')"
-          >Georgian</a
+          >{{
+            $store.state.locale === "ka"
+              ? "ქართული"
+              : $store.state.locale === "en"
+              ? "Georgian"
+              : $store.state.locale === "ru"
+              ? "Грузинский"
+              : null
+          }}</a
         >
       </li>
       <li>
@@ -89,7 +171,15 @@
           class="dropdown-item"
           href="#!"
           @click.prevent="exportRecords([], 'en')"
-          >English</a
+          >{{
+            $store.state.locale === "ka"
+              ? "ინგლისური"
+              : $store.state.locale === "en"
+              ? "English"
+              : $store.state.locale === "ru"
+              ? "Английский"
+              : null
+          }}</a
         >
       </li>
       <li>
@@ -97,7 +187,15 @@
           class="dropdown-item"
           href="#!"
           @click.prevent="exportRecords([], 'ru')"
-          >Russian</a
+          >{{
+            $store.state.locale === "ka"
+              ? "რუსული"
+              : $store.state.locale === "en"
+              ? "Russian"
+              : $store.state.locale === "ru"
+              ? "Русский"
+              : null
+          }}</a
         >
       </li>
     </ul>
@@ -109,18 +207,63 @@
       aria-expanded="false"
       v-show="selected.length"
     >
-      Download {{ selected.length }}
-      <span v-if="selected.length > 1">records</span>
-      <span v-else>record</span>
+      {{
+        $store.state.locale === "ka"
+          ? "გადმოწერე"
+          : $store.state.locale === "en"
+          ? "Download"
+          : $store.state.locale === "ru"
+          ? "Скачать"
+          : null
+      }}
+      {{ selected.length }}
+      <span v-if="selected.length > 1">{{
+        $store.state.locale === "ka"
+          ? "ჩანაწერი"
+          : $store.state.locale === "en"
+          ? "records"
+          : $store.state.locale === "ru"
+          ? "записи"
+          : null
+      }}</span>
+      <span v-else>{{
+        $store.state.locale === "ka"
+          ? "ჩანაწერი"
+          : $store.state.locale === "en"
+          ? "record"
+          : $store.state.locale === "ru"
+          ? "запись"
+          : null
+      }}</span>
     </button>
     <ul class="dropdown-menu" aria-labelledby="exportDropdown">
-      <li><h6 class="dropdown-header">Choose language</h6></li>
+      <li>
+        <h6 class="dropdown-header">
+          {{
+            $store.state.locale === "ka"
+              ? "აირჩიეთ ენა"
+              : $store.state.locale === "en"
+              ? "Choose language"
+              : $store.state.locale === "ru"
+              ? "Выберите язык"
+              : null
+          }}
+        </h6>
+      </li>
       <li>
         <a
           class="dropdown-item"
           href="#!"
           @click.prevent="exportRecords(selected, 'ka')"
-          >Georgian</a
+          >{{
+            $store.state.locale === "ka"
+              ? "ქართული"
+              : $store.state.locale === "en"
+              ? "Georgian"
+              : $store.state.locale === "ru"
+              ? "Грузинский"
+              : null
+          }}</a
         >
       </li>
       <li>
@@ -128,7 +271,15 @@
           class="dropdown-item"
           href="#!"
           @click.prevent="exportRecords(selected, 'en')"
-          >English</a
+          >{{
+            $store.state.locale === "ka"
+              ? "ინგლისური"
+              : $store.state.locale === "en"
+              ? "English"
+              : $store.state.locale === "ru"
+              ? "Английский"
+              : null
+          }}</a
         >
       </li>
       <li>
@@ -136,12 +287,20 @@
           class="dropdown-item"
           href="#!"
           @click.prevent="exportRecords(selected, 'ru')"
-          >Russian</a
+          >{{
+            $store.state.locale === "ka"
+              ? "რუსული"
+              : $store.state.locale === "en"
+              ? "Russian"
+              : $store.state.locale === "ru"
+              ? "Русский"
+              : null
+          }}</a
         >
       </li>
     </ul>
   </div>
-  <div class="table-responsive">
+  <div id="table" class="table-responsive">
     <table class="table table-striped">
       <thead class="bg-dark text-white">
         <tr>
@@ -151,7 +310,15 @@
             class="w-25 pointer"
             @click.prevent="changeSort('name_en')"
           >
-            Name
+            {{
+              $store.state.locale === "ka"
+                ? "დასახელება"
+                : $store.state.locale === "en"
+                ? "Name"
+                : $store.state.locale === "ru"
+                ? "Название"
+                : null
+            }}
             <span
               v-if="params.sortBy == 'name_en' && params.sortDirection == 'asc'"
               ><i class="fas fa-caret-up fa-sm"></i
@@ -168,7 +335,15 @@
             class="w-25 pointer"
             @click.prevent="changeSort('category_id')"
           >
-            Category
+            {{
+              $store.state.locale === "ka"
+                ? "კატეგორია"
+                : $store.state.locale === "en"
+                ? "Category"
+                : $store.state.locale === "ru"
+                ? "Категория"
+                : null
+            }}
             <span
               v-if="
                 params.sortBy == 'category_id' && params.sortDirection == 'asc'
@@ -187,7 +362,15 @@
             class="w-25 pointer"
             @click.prevent="changeSort('municipality_id')"
           >
-            Municipality
+            {{
+              $store.state.locale === "ka"
+                ? "მუნიციპალიტეტი"
+                : $store.state.locale === "en"
+                ? "Municipality"
+                : $store.state.locale === "ru"
+                ? "Муниципалитет"
+                : null
+            }}
             <span
               v-if="
                 params.sortBy == 'municipality_id' &&
@@ -203,8 +386,28 @@
               ><i class="fas fa-caret-down fa-sm"></i
             ></span>
           </th>
-          <th scope="col" class="w-25">Mobile</th>
-          <th scope="col" class="w-25">Email</th>
+          <th scope="col" class="w-25">
+            {{
+              $store.state.locale === "ka"
+                ? "ტელეფონი"
+                : $store.state.locale === "en"
+                ? "Phone"
+                : $store.state.locale === "ru"
+                ? "Телефон"
+                : null
+            }}
+          </th>
+          <th scope="col" class="w-25">
+            {{
+              $store.state.locale === "ka"
+                ? "ელ-ფოსტა"
+                : $store.state.locale === "en"
+                ? "Email"
+                : $store.state.locale === "ru"
+                ? "Эл. адрес"
+                : null
+            }}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -217,9 +420,39 @@
               v-model="selected"
             />
           </th>
-          <td>{{ record.name_en ?? "-" }}</td>
-          <td>{{ record.category.name_en ?? "-" }}</td>
-          <td>{{ record.municipality.name_en ?? "-" }}</td>
+          <td>
+            {{
+              $store.state.locale === "ka"
+                ? record.name_ka
+                : $store.state.locale === "en"
+                ? record.name_en
+                : $store.state.locale === "ru"
+                ? record.name_ru
+                : null
+            }}
+          </td>
+          <td>
+            {{
+              $store.state.locale === "ka"
+                ? record.category.name_ka
+                : $store.state.locale === "en"
+                ? record.category.name_en
+                : $store.state.locale === "ru"
+                ? record.category.name_ru
+                : null
+            }}
+          </td>
+          <td>
+            {{
+              $store.state.locale === "ka"
+                ? record.municipality.name_ka
+                : $store.state.locale === "en"
+                ? record.municipality.name_en
+                : $store.state.locale === "ru"
+                ? record.municipality.name_ru
+                : null
+            }}
+          </td>
           <td>{{ record.mobile ?? "-" }}</td>
           <td>{{ record.email ?? "-" }}</td>
         </tr>
@@ -228,8 +461,45 @@
   </div>
   <div class="d-flex align-items-center justify-content-between flex-direction">
     <div class="my-1">
-      Showing {{ pagination.from }} to {{ pagination.to }} of
-      {{ pagination.total }} records
+      {{
+        $store.state.locale === "ka"
+          ? "ნაჩვენებია"
+          : $store.state.locale === "en"
+          ? "Showing"
+          : $store.state.locale === "ru"
+          ? "Показано"
+          : null
+      }}
+      {{ pagination.from }}
+      {{
+        $store.state.locale === "ka"
+          ? "დან"
+          : $store.state.locale === "en"
+          ? "to"
+          : $store.state.locale === "ru"
+          ? "-"
+          : null
+      }}
+      {{ pagination.to }}
+      {{
+        $store.state.locale === "ka"
+          ? "მდე ჩანაწერი,"
+          : $store.state.locale === "en"
+          ? "of"
+          : $store.state.locale === "ru"
+          ? "записей от"
+          : null
+      }}
+      {{ pagination.total }}
+      {{
+        $store.state.locale === "ka"
+          ? "ჩანაწერიდან"
+          : $store.state.locale === "en"
+          ? "records"
+          : $store.state.locale === "ru"
+          ? "записей"
+          : null
+      }}
     </div>
     <nav class="my-1">
       <ul class="pagination flex-wrap">
@@ -241,7 +511,7 @@
         >
           <a
             class="page-link"
-            href="#"
+            href="#table"
             @click="changePage(link.label)"
             v-if="link.label.length <= 3"
             >{{ link.label }}</a
@@ -257,6 +527,7 @@ import axios from "axios";
 import API_URL from "../helpers/index";
 
 export default {
+  name: "InformationBase",
   props: ["name"],
   data() {
     return {
@@ -265,7 +536,8 @@ export default {
       municipalities: [],
       selected: [],
       filters: false,
-      filtersText: "Show",
+      filtersText: "",
+      searchPlaceholder: "",
       params: {
         page: 1,
         pageLength: [
@@ -379,8 +651,6 @@ export default {
     },
     showFilters() {
       this.filters = !this.filters;
-      if (this.filters === true) this.filtersText = "Hide";
-      else this.filtersText = "Show";
     },
   },
   mounted() {
@@ -388,14 +658,26 @@ export default {
     this.getCategories();
     this.getMunicipalities();
   },
+  updated() {
+    this.$store.state.locale === "ka"
+      ? (this.searchPlaceholder = "ძიება...")
+      : this.$store.state.locale === "en"
+      ? (this.searchPlaceholder = "Search...")
+      : this.$store.state.locale === "ru"
+      ? (this.searchPlaceholder = "Поиск...")
+      : null;
+    this.$store.state.locale === "ka"
+      ? (this.filtersText = "ფილტრები")
+      : this.$store.state.locale === "en"
+      ? (this.filtersText = "Filters")
+      : this.$store.state.locale === "ru"
+      ? (this.filtersText = "Фильтры")
+      : null;
+  },
 };
 </script>
 
 <style scoped>
-.pointer {
-  cursor: pointer;
-}
-
 .sm-select {
   width: 80px !important;
 }
