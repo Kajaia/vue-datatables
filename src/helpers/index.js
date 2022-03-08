@@ -1,3 +1,3 @@
-const API_URL = "http://localhost";
+const API_URL = "https://intranet.infoajara.com";
 
 export default API_URL;
