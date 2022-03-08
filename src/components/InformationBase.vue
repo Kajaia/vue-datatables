@@ -308,7 +308,7 @@
           <th
             scope="col"
             class="w-25 pointer"
-            @click.prevent="changeSort('name_en')"
+            @click.prevent="changeSort(`name_${$store.state.locale}`)"
           >
             {{
               $store.state.locale === "ka"
@@ -320,12 +320,16 @@
                 : null
             }}
             <span
-              v-if="params.sortBy == 'name_en' && params.sortDirection == 'asc'"
+              v-if="
+                params.sortBy == `name_${$store.state.locale}` &&
+                params.sortDirection == 'asc'
+              "
               ><i class="fas fa-caret-up fa-sm"></i
             ></span>
             <span
               v-if="
-                params.sortBy == 'name_en' && params.sortDirection == 'desc'
+                params.sortBy == `name_${$store.state.locale}` &&
+                params.sortDirection == 'desc'
               "
               ><i class="fas fa-caret-down fa-sm"></i
             ></span>
