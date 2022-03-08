@@ -10,7 +10,7 @@
               :to="{ name: 'Category', params: { category: 'hotels' } }"
               >{{
                 $store.state.locale === "ka"
-                  ? "სასტუმროები"
+                  ? "განთავსება"
                   : $store.state.locale === "en"
                   ? "Hotels"
                   : $store.state.locale === "ru"
@@ -32,33 +32,11 @@
               :to="{ name: 'Category', params: { category: 'restaurants' } }"
               >{{
                 $store.state.locale === "ka"
-                  ? "რესტორნები"
+                  ? "კვება"
                   : $store.state.locale === "en"
                   ? "Restaurants"
                   : $store.state.locale === "ru"
                   ? "Рестораны"
-                  : null
-              }}</router-link
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-4 col-lg-3 my-2">
-      <div class="card h-100 border-0 rounded-3 shadow">
-        <div class="card-body text-center">
-          <i class="fas fa-compass fa-3x text-primary"></i>
-          <div class="mt-2">
-            <router-link
-              class="stretched-link text-decoration-none fs-5"
-              :to="{ name: 'Category', params: { category: 'sights' } }"
-              >{{
-                $store.state.locale === "ka"
-                  ? "ღირსშესანიშნაობები"
-                  : $store.state.locale === "en"
-                  ? "Sights"
-                  : $store.state.locale === "ru"
-                  ? "Достопримечательности"
                   : null
               }}</router-link
             >
@@ -81,6 +59,72 @@
                   ? "Entertainment"
                   : $store.state.locale === "ru"
                   ? "Развлечение"
+                  : null
+              }}</router-link
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3 my-2 d-none">
+      <div class="card h-100 border-0 rounded-3 shadow">
+        <div class="card-body text-center">
+          <i class="fas fa-suitcase fa-3x text-primary"></i>
+          <div class="mt-2">
+            <router-link
+              class="stretched-link text-decoration-none fs-5"
+              :to="{ name: 'Category', params: { category: 'agencies' } }"
+              >{{
+                $store.state.locale === "ka"
+                  ? "ტურისტული სააგენტოები"
+                  : $store.state.locale === "en"
+                  ? "Travel agencies"
+                  : $store.state.locale === "ru"
+                  ? "Турагенства"
+                  : null
+              }}</router-link
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3 my-2 d-none">
+      <div class="card h-100 border-0 rounded-3 shadow">
+        <div class="card-body text-center">
+          <i class="fas fa-compass fa-3x text-primary"></i>
+          <div class="mt-2">
+            <router-link
+              class="stretched-link text-decoration-none fs-5"
+              :to="{ name: 'Category', params: { category: 'guides' } }"
+              >{{
+                $store.state.locale === "ka"
+                  ? "გიდები"
+                  : $store.state.locale === "en"
+                  ? "Guides"
+                  : $store.state.locale === "ru"
+                  ? "Гиды"
+                  : null
+              }}</router-link
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-3 my-2">
+      <div class="card h-100 border-0 rounded-3 shadow">
+        <div class="card-body text-center">
+          <i class="fas fa-archway fa-3x text-primary"></i>
+          <div class="mt-2">
+            <router-link
+              class="stretched-link text-decoration-none fs-5"
+              :to="{ name: 'Category', params: { category: 'sights' } }"
+              >{{
+                $store.state.locale === "ka"
+                  ? "ღირსშესანიშნაობები"
+                  : $store.state.locale === "en"
+                  ? "Sights"
+                  : $store.state.locale === "ru"
+                  ? "Достопримечательности"
                   : null
               }}</router-link
             >
