@@ -1,15 +1,4 @@
 <template>
-  <h1 class="display-2 text-center mb-4">
-    {{
-      $store.state.locale === "ka"
-        ? "სასტუმროები"
-        : $store.state.locale === "en"
-        ? pageTitle
-        : $store.state.locale === "ru"
-        ? "Отели"
-        : null
-    }}
-  </h1>
   <div class="row justify-content-between my-2">
     <div class="col-sm-6 col-md-4 col-lg-3 my-1">
       <div class="d-flex align-items-center">
@@ -568,12 +557,6 @@ export default {
         this.getResults();
       },
       deep: true,
-    },
-  },
-  computed: {
-    pageTitle() {
-      let title = this.name;
-      return title.split("")[0].toUpperCase() + title.slice(1, title.length);
     },
   },
   methods: {

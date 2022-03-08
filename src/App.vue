@@ -2,18 +2,17 @@
   <div class="container-fluid">
     <div class="container my-3">
       <LocaleSwitcher />
-      <InformationBase :name="'hotels'" />
+      <RouterView />
     </div>
   </div>
 </template>
 
 <script>
 import LocaleSwitcher from "./components/LocaleSwitcher";
-import InformationBase from "./components/InformationBase";
 
 export default {
   name: "app",
-  components: { LocaleSwitcher, InformationBase },
+  components: { LocaleSwitcher },
 };
 </script>
 
